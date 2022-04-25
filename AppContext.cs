@@ -32,7 +32,7 @@ namespace AppServer
                 .WithMany()
                 .HasForeignKey(instance => instance.AssetItemId);
             modelBuilder.Entity<Instance>()
-               .HasOne<Department>()
+               .HasOne(instance => instance.DepartmentNavigation)
                .WithMany()
                .HasForeignKey(instance => instance.DepartmentId);
 

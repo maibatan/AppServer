@@ -25,22 +25,42 @@ namespace AppServer.Controllers
                         .ThenInclude(instance => instance.AssetItemNavigation)
                         .ToListAsync();
         }
+        [HttpGet("Inventory/{inventoryId}/AssetItem/{assetItem}")]
+        public async Task<ActionResult<IEnumerable<PhysicalDetail>>> Get(int inventoryId, int assetItem)
+        {
+            return await _context.PhysicalDetails
+                              .Include(detail => detail.InstanceNavigation)
+                              .ThenInclude(instance => instance.AssetItemNavigation)
+                              .Where(detail => detail.InventoryId == inventoryId)
+                              .Where(detail => detail.InstanceNavigation.AssetItemId == assetItem)
+                              .Where(detail => detail.Status == true)
+                              .ToListAsync();
+        }
+        [HttpGet("Inventory/{inventoryId}")]
+        public async Task<ActionResult<IEnumerable<PhysicalDetail>>> GetByInventoryId(int inventoryId)
+        {
+            return await _context.PhysicalDetails
+                              .Include(detail => detail.InstanceNavigation)
+                              .ThenInclude(instance => instance.AssetItemNavigation)
+                              .Where(detail => detail.InventoryId == inventoryId)
+                              .ToListAsync();
 
+        }
         [HttpGet("{id}")]
         public async Task<ActionResult<PhysicalDetail>> Get(int id)
         {
-            var physicalDetail = await _context.PhysicalDetails
+            var detail = await _context.PhysicalDetails
                               .Include(detail => detail.InstanceNavigation)
                               .ThenInclude(instance => instance.AssetItemNavigation)
-                              .Where(detail=> detail.Id ==id)
+                              .Where(detail => detail.Id == id)
                               .FirstAsync();
 
-            if (physicalDetail == null)
+            if (detail == null)
             {
                 return NotFound();
             }
 
-            return physicalDetail;
+            return detail;
         }
         [HttpPost]
         public async Task<ActionResult<PhysicalDetail>> Post(PhysicalDetail detail)

@@ -24,8 +24,6 @@ namespace AppServer.Controllers
         {
             return await _context.AssetItems.ToListAsync();
         }
-
-        // GET: api/AssetItems/5
         [HttpGet("{id}")]
         public async Task<ActionResult<AssetItem>> Get(int id)
         {

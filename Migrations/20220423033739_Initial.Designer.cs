@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppServer.Migrations
 {
     [DbContext(typeof(AppContext))]
-    [Migration("20220419084244_Initial")]
+    [Migration("20220423033739_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -145,7 +145,7 @@ namespace AppServer.Migrations
                     b.Property<int>("InventoryId")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("Status")
+                    b.Property<bool>("Status")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
@@ -182,13 +182,15 @@ namespace AppServer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SharedLibrary.Department", null)
+                    b.HasOne("SharedLibrary.Department", "DepartmentNavigation")
                         .WithMany()
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AssetItemNavigation");
+
+                    b.Navigation("DepartmentNavigation");
                 });
 
             modelBuilder.Entity("SharedLibrary.PhysicalDetail", b =>

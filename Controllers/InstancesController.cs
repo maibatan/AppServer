@@ -11,10 +11,10 @@ namespace AppServer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class InstanceController : ControllerBase
+    public class InstancesController : ControllerBase
     {
         private readonly AppContext _context;
-        public InstanceController(AppContext context)
+        public InstancesController(AppContext context)
         {
             _context = context;
         }

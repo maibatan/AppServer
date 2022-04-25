@@ -113,7 +113,7 @@ namespace AppServer.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     InventoryId = table.Column<int>(type: "int", nullable: false),
                     InstanceId = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<bool>(type: "bit", nullable: true)
+                    Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

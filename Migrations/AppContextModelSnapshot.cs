@@ -143,7 +143,7 @@ namespace AppServer.Migrations
                     b.Property<int>("InventoryId")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("Status")
+                    b.Property<bool>("Status")
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
@@ -180,13 +180,15 @@ namespace AppServer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SharedLibrary.Department", null)
+                    b.HasOne("SharedLibrary.Department", "DepartmentNavigation")
                         .WithMany()
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("AssetItemNavigation");
+
+                    b.Navigation("DepartmentNavigation");
                 });
 
             modelBuilder.Entity("SharedLibrary.PhysicalDetail", b =>
