@@ -30,6 +30,7 @@ namespace AppServer.Controllers
         {
             var instance = await _context.Instances
                            .Include(instance => instance.AssetItemNavigation)
+                           .Include(instance => instance.DepartmentNavigation)
                            .Where(instance=> instance.TagId == id).FirstAsync();
 
             if (instance == null)

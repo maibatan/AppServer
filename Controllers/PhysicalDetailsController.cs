@@ -44,7 +44,6 @@ namespace AppServer.Controllers
                               .ThenInclude(instance => instance.AssetItemNavigation)
                               .Where(detail => detail.InventoryId == inventoryId)
                               .ToListAsync();
-
         }
         [HttpGet("{id}")]
         public async Task<ActionResult<PhysicalDetail>> Get(int id)
@@ -66,6 +65,10 @@ namespace AppServer.Controllers
         public async Task<ActionResult<PhysicalDetail>> Post(PhysicalDetail detail)
         {
             _context.PhysicalDetails.Add(detail);
+            if (PhysicalDetailExists(detail.InstanceId, detail.InventoryId))
+            {
+                return Conflict();
+            }
             try
             {
                 await _context.SaveChangesAsync();
@@ -126,10 +129,13 @@ namespace AppServer.Controllers
             await _context.SaveChangesAsync();
             return detail;
         }
-
         private bool PhysicalDetailExists(int id)
         {
             return _context.PhysicalDetails.Any(e => e.Id == id);
+        }
+        private bool PhysicalDetailExists(int instanceId,int inventoryId)
+        {
+            return _context.PhysicalDetails.Any(e => e.InstanceId == instanceId && e.InventoryId == inventoryId);
         }
     }
 }
